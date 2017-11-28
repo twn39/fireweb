@@ -8,7 +8,6 @@ const router = require('./routers');
 const pino = require('pino');
 const bodyParser = require('koa-bodyparser');
 
-
 const app = new Koa();
 
 app.context.logger = pino();
