@@ -8,5 +8,6 @@ const router = new Router({
 
 router.get('/', IndexHandler.index);
 router.post('/signup', AuthHandler.signup);
+router.post('/login', AuthHandler.login);
 
 module.exports = router;

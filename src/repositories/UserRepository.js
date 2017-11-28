@@ -36,9 +36,6 @@ class UserRepository {
         });
 
         return await user.save();
-
-
-
     }
 
     async findByUserName(username) {
