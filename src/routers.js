@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const IndexHandler = require('./handlers/IndexHandler');
 const AuthHandler = require('./handlers/AuthHandler');
+const CheckToken = require('./middlewares/CheckToken');
 
 const router = new Router({
   prefix: '/v1',
@@ -8,6 +9,6 @@ const router = new Router({
 
 router.get('/', IndexHandler.index);
 router.post('/signup', AuthHandler.signup);
-router.post('/login', AuthHandler.login);
+router.post('/login', CheckToken, AuthHandler.login);
 
 module.exports = router;
