@@ -1,6 +1,7 @@
 
 const UserRepo = require('../repositories/UserRepository');
 const Joi = require('joi');
+const JWT = require('jsonwebtoken');
 
 const signUpSchema = Joi.object().keys({
     username: Joi.string().min(2).max(20).required(),
@@ -22,7 +23,20 @@ const AuthHandler = {
             return ctx.body = 'signup failed';
         }
 
-        ctx.body = user;
+        const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 24);
+
+        const token = JWT.sign({
+            iss: process.env.JWT_ISS,
+            sub: process.env.JWT_SUB,
+            aud: process.env.JWT_AUD,
+            exp: exp,
+            uid: user.id,
+        }, process.env.JWT_SECRET);
+
+        ctx.body = {
+            token: token,
+            exp: exp,
+        };
     }
 };
 

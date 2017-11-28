@@ -1,4 +1,7 @@
 const User = require('../models/User');
+const datefns = require('date-fns');
+const bcrypt = require('bcrypt');
+
 
 class UserRepository {
 
@@ -20,13 +23,22 @@ class UserRepository {
             return false;
         }
 
-        const user = new User({
+        const passwordHash = await bcrypt.hash(password, 10);
+
+        let user = new User({
             username: username,
             email: email,
-            password: password
+            password: passwordHash,
+            avatar: '',
+            "created_at": datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+            "updated_at": datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+
         });
 
         return await user.save();
+
+
+
     }
 
     async findByUserName(username) {
