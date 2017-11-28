@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config({
-    path: `src/.env.${process.env.NODE_ENV}`
+  path: `src/.env.${process.env.NODE_ENV}`,
 });
 
 const Koa = require('koa');
@@ -17,4 +17,3 @@ app.use(router.routes());
 
 console.log('server listen at port 3000 ...');
 app.listen(3000);
-
