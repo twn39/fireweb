@@ -11,12 +11,18 @@ const signUpSchema = Joi.object().keys({
 const AuthHandler = {
     async signup(ctx, next) {
 
-        const result = Joi.validate(ctx.request.body, signUpSchema);
+        const postData = ctx.request.body;
+        const result = Joi.validate(postData, signUpSchema);
         if (result.error !== null) {
             return ctx.body = result.error;
         }
 
-        ctx.body = await UserRepo.find(1);
+        const user = await UserRepo.add(postData.username, postData.email, postData.password);
+        if (!user) {
+            return ctx.body = 'signup failed';
+        }
+
+        ctx.body = user;
     }
 };
 
