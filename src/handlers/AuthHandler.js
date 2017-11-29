@@ -2,6 +2,8 @@ const UserRepo = require('../repositories/UserRepository');
 const Joi = require('joi');
 const JWT = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { SUCCESS, REQUEST_PARAMS_INVALID } = require('../helpers/ErrorCode');
+const Code = require('../helpers/Code');
 
 const signUpSchema = Joi.object().keys({
     username: Joi.string()
@@ -39,7 +41,8 @@ const AuthHandler = {
         const postData = ctx.request.body;
         const result = Joi.validate(postData, signUpSchema);
         if (result.error !== null) {
-            return (ctx.body = result.error);
+
+            return ctx.body = Code(REQUEST_PARAMS_INVALID, '', result.error);
         }
 
         const user = await UserRepo.add(
@@ -64,10 +67,7 @@ const AuthHandler = {
             process.env.JWT_SECRET
         );
 
-        ctx.body = {
-            token: token,
-            exp: exp,
-        };
+        return ctx.body = Code(SUCCESS, {token, exp});
     },
 
     /**
@@ -112,10 +112,7 @@ const AuthHandler = {
             process.env.JWT_SECRET
         );
 
-        return (ctx.body = {
-            token: token,
-            exp: exp,
-        });
+        return ctx.body = Code(SUCCESS, {token, exp,});
     },
     /**
      * route: /v1/token/refresh

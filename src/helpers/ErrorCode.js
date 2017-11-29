@@ -1,0 +1,9 @@
+const SUCCESS = '0';
+const REQUEST_PARAMS_INVALID = '100001';
+const USER_ALREADY_EXIST = '100002';
+
+module.exports = {
+    SUCCESS,
+    REQUEST_PARAMS_INVALID,
+    USER_ALREADY_EXIST,
+};

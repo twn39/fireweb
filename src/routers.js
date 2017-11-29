@@ -9,7 +9,10 @@ const router = new Router({
 
 router.get('/', IndexHandler.index);
 router.post('/signup', AuthHandler.signup);
-router.post('/login', CheckToken, AuthHandler.login);
+router.post('/login', AuthHandler.login);
 router.get('/token/refresh', CheckToken, AuthHandler.tokenRefresh);
+
+//  users
+
 
 module.exports = router;
