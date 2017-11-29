@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config({
-  path: `src/.env.${process.env.NODE_ENV}`,
+    path: `src/.env.${process.env.NODE_ENV}`,
 });
 
 const Koa = require('koa');
