@@ -26,7 +26,7 @@ const loginSchema = Joi.object().keys({
         .max(30)
         .required(),
 });
-
+    
 const AuthHandler = {
     /**
      * router: POST /v1/signup
@@ -124,7 +124,27 @@ const AuthHandler = {
      * @param next
      * @returns {Promise.<void>}
      */
-    async tokenRefresh(ctx, next) {},
+    async tokenRefresh(ctx, next) {
+        
+        const exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24;
+        const uid = ctx.state.jwt.uid;
+
+        const token = JWT.sign(
+            {
+                iss: process.env.JWT_ISS,
+                sub: process.env.JWT_SUB,
+                aud: process.env.JWT_AUD,
+                exp: exp,
+                uid: uid,
+            },
+            process.env.JWT_SECRET
+        );
+
+        return (ctx.body = {
+            token: token,
+            exp: exp,
+        });
+    },
 };
 
 module.exports = AuthHandler;
