@@ -16,6 +16,7 @@ async function CheckToken(ctx, next) {
 
     try {
         ctx.state.jwt = JWT.verify(token, process.env.JWT_SECRET);
+        console.log(ctx.state.jwt);
         await next();
     } catch (error) {
         ctx.logger.error(error);
