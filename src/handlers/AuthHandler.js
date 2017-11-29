@@ -26,7 +26,7 @@ const loginSchema = Joi.object().keys({
         .max(30)
         .required(),
 });
-    
+
 const AuthHandler = {
     /**
      * router: POST /v1/signup
@@ -122,10 +122,9 @@ const AuthHandler = {
      *
      * @param ctx
      * @param next
-     * @returns {Promise.<void>}
+     * @returns {Promise<{token: *, exp: number}>}
      */
     async tokenRefresh(ctx, next) {
-        
         const exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24;
         const uid = ctx.state.jwt.uid;
 
