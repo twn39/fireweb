@@ -1,4 +1,6 @@
 const JWT = require('jsonwebtoken');
+const { TOKEN_INVALID } = require('../helpers/ErrorCode');
+const Code = require('../helpers/Code');
 
 /**
  * @return {string}
@@ -7,7 +9,7 @@ async function CheckToken(ctx, next) {
     let token = ctx.headers.authorization;
 
     if (typeof token === 'undefined') {
-        return (ctx.body = 'token error');
+        return ctx.body = Code(TOKEN_INVALID);
     }
 
     token = token.substr(7);
@@ -17,7 +19,7 @@ async function CheckToken(ctx, next) {
         await next();
     } catch (error) {
         ctx.logger.error(error);
-        return (ctx.body = 'token decode error');
+        return ctx.body = Code(TOKEN_INVALID);
     }
 }
 
