@@ -136,10 +136,7 @@ const AuthHandler = {
             process.env.JWT_SECRET
         );
 
-        return (ctx.body = {
-            token: token,
-            exp: exp,
-        });
+        return ctx.body = Code(SUCCESS, {token, exp});
     },
 };
 
