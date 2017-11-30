@@ -36,7 +36,7 @@ class UserRepository {
 
     async update(uid, user) {
         const user = await this.find(uid);
-
+        return await user.save(user, {patch: true});
     }
 
     async findByUserName(username) {
