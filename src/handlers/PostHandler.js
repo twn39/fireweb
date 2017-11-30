@@ -23,6 +23,18 @@ const PostHandler = {
             ctx.body = Code(SUCCESS);
         }
     },
+
+    async show(ctx, next) {
+
+    },
+
+    async update(ctx, next) {
+
+    },
+
+    async delete(ctx, next) {
+
+    }
 };
 
 module.exports = PostHandler;
