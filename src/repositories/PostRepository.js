@@ -9,12 +9,33 @@ class PostRepository {
             content,
             created_at: datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
             updated_at: datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-            deleted_at: datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+            deleted_at: null,
         });
 
         post = await post.save();
 
         return post;
+    }
+
+    async find(id) {
+        return await Post.query(qb => {
+            qb.where('id', id).whereNull('deleted_at');
+        }).fetch();
+    }
+
+    async delete(id) {
+        const post = await this.find(id);
+
+        if (post === null) {
+            return true;
+        }
+
+        return await post.save(
+            {
+                deleted_at: datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+            },
+            { patch: true }
+        );
     }
 }
 

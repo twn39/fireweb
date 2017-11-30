@@ -3,6 +3,7 @@ const REQUEST_PARAMS_INVALID = '100001';
 const USER_ALREADY_EXIST = '100002';
 const TOKEN_INVALID = '100003';
 const HAVE_NO_RIGHT = '100004';
+const RESOURCE_NOT_EXIST = '100005';
 
 module.exports = {
     SUCCESS,
@@ -10,4 +11,5 @@ module.exports = {
     USER_ALREADY_EXIST,
     TOKEN_INVALID,
     HAVE_NO_RIGHT,
+    RESOURCE_NOT_EXIST,
 };

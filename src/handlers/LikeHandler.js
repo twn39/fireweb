@@ -1,12 +1,7 @@
-
 const LikeHandler = {
-    async like(ctx, next) {
+    async like(ctx, next) {},
 
-    },
-
-    async unLike(ctx, next) {
-
-    }
+    async unLike(ctx, next) {},
 };
 
 module.exports = LikeHandler;
