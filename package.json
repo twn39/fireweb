@@ -22,13 +22,15 @@
     "qs": "^6.5.1"
   },
   "devDependencies": {
+    "autocannon": "^0.16.5",
     "cross-env": "^5.1.1",
     "nodemon": "^1.12.1",
     "prettier": "1.8.2"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon src/index.js",
-    "lint": "prettier --single-quote --tab-width 4 --trailing-comma es5 --write 'src/**/*.js'"
+    "lint": "prettier --single-quote --tab-width 4 --trailing-comma es5 --write 'src/**/*.js'",
+    "bech": "autocannon -c 500 -d 5s http://127.0.0.1:3000/v1/posts/6"
   },
   "license": "MIT"
 }
