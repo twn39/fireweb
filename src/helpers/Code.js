@@ -11,7 +11,7 @@ function code(code, data = '', message = '') {
         message = messages[code];
     }
 
-    return { code, data, message }
+    return { code, data, message };
 }
 
 module.exports = code;

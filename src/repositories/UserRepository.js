@@ -36,7 +36,7 @@ class UserRepository {
 
     async update(uid, data) {
         const user = await this.find(uid);
-        return await user.save(data, {patch: true});
+        return await user.save(data, { patch: true });
     }
 
     async findByUserName(username) {

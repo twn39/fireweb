@@ -41,8 +41,7 @@ const AuthHandler = {
         const postData = ctx.request.body;
         const result = Joi.validate(postData, signUpSchema);
         if (result.error !== null) {
-
-            return ctx.body = Code(REQUEST_PARAMS_INVALID, '', result.error);
+            return (ctx.body = Code(REQUEST_PARAMS_INVALID, '', result.error));
         }
 
         const user = await UserRepo.add(
@@ -67,7 +66,7 @@ const AuthHandler = {
             process.env.JWT_SECRET
         );
 
-        return ctx.body = Code(SUCCESS, {token, exp});
+        return (ctx.body = Code(SUCCESS, { token, exp }));
     },
 
     /**
@@ -112,7 +111,7 @@ const AuthHandler = {
             process.env.JWT_SECRET
         );
 
-        return ctx.body = Code(SUCCESS, {token, exp,});
+        return (ctx.body = Code(SUCCESS, { token, exp }));
     },
     /**
      * route: /v1/token/refresh
@@ -136,7 +135,7 @@ const AuthHandler = {
             process.env.JWT_SECRET
         );
 
-        return ctx.body = Code(SUCCESS, {token, exp});
+        return (ctx.body = Code(SUCCESS, { token, exp }));
     },
 };
 

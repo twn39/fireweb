@@ -170,7 +170,7 @@ CREATE TABLE posts (
     title character varying(255) NOT NULL,
     content text NOT NULL,
     created_at timestamp without time zone,
-    update_at timestamp without time zone,
+    updated_at timestamp without time zone,
     deleted_at timestamp without time zone,
     views integer DEFAULT 0,
     comments integer DEFAULT 0,
@@ -375,7 +375,8 @@ COPY post_tag (post_id, tag_id) FROM stdin;
 -- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: twn39
 --
 
-COPY posts (id, title, content, created_at, update_at, deleted_at, views, comments, bookmarks, likes, user_id) FROM stdin;
+COPY posts (id, title, content, created_at, updated_at, deleted_at, views, comments, bookmarks, likes, user_id) FROM stdin;
+3	hello	test	2017-11-29 19:18:57	2017-11-29 19:18:57	2017-11-29 19:18:57	0	0	0	0	1
 \.
 
 
@@ -383,7 +384,7 @@ COPY posts (id, title, content, created_at, update_at, deleted_at, views, commen
 -- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: twn39
 --
 
-SELECT pg_catalog.setval('posts_id_seq', 1, false);
+SELECT pg_catalog.setval('posts_id_seq', 3, true);
 
 
 --
@@ -406,7 +407,7 @@ SELECT pg_catalog.setval('tags_id_seq', 1, false);
 --
 
 COPY users (id, username, email, password, avatar, created_at, updated_at, age, gender, phone, address, sign, fans) FROM stdin;
-1	kevin	twn39@163.com	$2a$10$rkcCX0pgpfQ27NjuVDJ0suDRzdmhYqjAFsSgzmT9zGxuoJxadYqpi		2017-11-29 14:53:37	2017-11-29 14:53:37	0	0				0
+1	weinan	twn39@163.com	$2a$10$rkcCX0pgpfQ27NjuVDJ0suDRzdmhYqjAFsSgzmT9zGxuoJxadYqpi	avatar.png	2017-11-29 14:53:37	2017-11-29 14:53:37	0	0				0
 \.
 
 

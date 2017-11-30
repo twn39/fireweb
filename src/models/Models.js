@@ -4,7 +4,7 @@ const User = DB.Model.extend({
     tableName: 'users',
     posts() {
         return this.hasMany(Post);
-    }
+    },
 });
 
 const Post = DB.Model.extend({
@@ -14,14 +14,14 @@ const Post = DB.Model.extend({
     },
     author() {
         return this.belongsTo(User);
-    }
+    },
 });
 
 const Comment = DB.Model.extend({
     tableName: 'comments',
     post() {
         return this.belongsTo(Post);
-    }
+    },
 });
 
 const Tag = DB.Model.extend({

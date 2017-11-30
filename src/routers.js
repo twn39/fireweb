@@ -17,7 +17,6 @@ router.get('/token/refresh', CheckToken, AuthHandler.tokenRefresh);
 //  users
 router.put('/users/:id', CheckToken, UserHandler.update);
 
-
 // posts
 router.post('/posts', CheckToken, PostHandler.add);
 

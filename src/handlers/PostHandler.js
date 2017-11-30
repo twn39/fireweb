@@ -9,13 +9,12 @@ const postAddSchema = Joi.object().keys({
 });
 
 const PostHandler = {
-
     async add(ctx, next) {
         const params = ctx.request.body;
 
         const result = Joi.validate(params, postAddSchema);
         if (result.error !== null) {
-            return ctx.body = Code(REQUEST_PARAMS_INVALID, '', result.error);
+            return (ctx.body = Code(REQUEST_PARAMS_INVALID, '', result.error));
         }
         const uid = ctx.state.jwt.uid;
         const post = await PostRepo.add(params.title, uid, params.content);
@@ -23,7 +22,7 @@ const PostHandler = {
         if (post) {
             ctx.body = Code(SUCCESS);
         }
-    }
+    },
 };
 
 module.exports = PostHandler;
