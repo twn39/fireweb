@@ -1,11 +1,15 @@
 const UserRepo = require('../repositories/UserRepository');
-const { SUCCESS, REQUEST_PARAMS_INVALID } = require('../helpers/ErrorCode');
+const { SUCCESS, REQUEST_PARAMS_INVALID, HAVE_NO_RIGHT } = require('../helpers/ErrorCode');
+const Code = require('../helpers/Code');
 const Joi = require('joi');
+const { isEmpty } = require('lodash');
 
 const updateUserSchema = Joi.object().keys({
     username: Joi.string(),
     avatar: Joi.string(),
     age: Joi.number(),
+    email: Joi.string().email(),
+    password: Joi.string().min(6).max(30),
     gender: Joi.number(),
     phone: Joi.string(),
     address: Joi.string(),
@@ -22,11 +26,15 @@ const UserHandler = {
         }
 
         const uid = ctx.state.jwt.uid;
-        const user = await UserRepo.update(uid, params);
-
-        if (user) {
-            return ctx.body = Code(SUCCESS);
+        if( uid !== parseInt(ctx.params.id) ) {
+            return ctx.body = Code(HAVE_NO_RIGHT);
         }
+
+        if (!isEmpty(params)) {
+            const user = await UserRepo.update(uid, params);
+        }
+
+        return ctx.body = Code(SUCCESS);
     }
 };
 
