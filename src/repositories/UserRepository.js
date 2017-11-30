@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const { User } = require('../models/Models');
 const datefns = require('date-fns');
 const bcrypt = require('bcrypt');
 
@@ -32,6 +32,11 @@ class UserRepository {
         });
 
         return await user.save();
+    }
+
+    async update(uid, user) {
+        const user = await this.find(uid);
+
     }
 
     async findByUserName(username) {

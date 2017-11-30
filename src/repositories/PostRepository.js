@@ -1,4 +1,4 @@
-const Post = require('../models/Post');
+const { Post } = require('../models/Models');
 const datefns = require('date-fns');
 
 class PostRepository {
