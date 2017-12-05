@@ -32,7 +32,7 @@ class LikeRepository {
                     'created_at': datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
                 });
 
-                like.save(null, {transacting: t});
+                await like.save(null, {transacting: t});
 
                 await post.save({
                     likes: post.get('likes') + 1,
