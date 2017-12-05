@@ -4,6 +4,17 @@ const datefns = require('date-fns');
 
 class LikeRepository {
 
+    async find(userId, postId) {
+        return await Like.where('user_id', userId)
+            .where('post_id', postId)
+            .fetch();
+    }
+    /**
+     *
+     * @param userId
+     * @param postId
+     * @returns {Promise<*>}
+     */
     async like(userId, postId) {
 
         const post = await Post.where('id', postId).fetch();
@@ -35,12 +46,36 @@ class LikeRepository {
         }
     }
 
+    /**
+     *
+     * @param userId
+     * @param postId
+     * @returns {Promise<boolean>}
+     */
     async unLike(userId, postId) {
-        await Like.where('post_id', postId)
-            .where('user_id', userId)
-            .destroy();
+        const post = await Post.where('id', postId).fetch();
+        if (post === null) {
+            return false;
+        }
+        try {
+            return DB.transaction(async (t) => {
+                const like = await this.find(userId, postId);
 
-        return true;
+                if (like === null) {
+                    throw new Error('database likes table record is not exist.');
+                }
+                await like.destroy({transacting: t});
+
+                await post.save({
+                    likes: post.get('likes') - 1,
+                }, {patch: true, transacting: t});
+
+                return true;
+            })
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 }
 

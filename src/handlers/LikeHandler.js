@@ -1,7 +1,7 @@
 const {
     SUCCESS,
-    REQUEST_PARAMS_INVALID,
     RESOURCE_NOT_EXIST,
+    SERVER_ERROR
 } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 const LikeRepo = require('../repositories/LikeRepository');
@@ -19,12 +19,13 @@ const LikeHandler = {
 
         const success = await LikeRepo.like(uid, postId);
 
+        console.log(success);
+
         if (success) {
             return ctx.body = Code(SUCCESS);
-        } else {
-            return ctx.body = Code(RESOURCE_NOT_EXIST);
         }
 
+        return ctx.body = Code(SERVER_ERROR);
     },
 
     /**

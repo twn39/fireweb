@@ -4,6 +4,7 @@ const USER_ALREADY_EXIST = '100002';
 const TOKEN_INVALID = '100003';
 const HAVE_NO_RIGHT = '100004';
 const RESOURCE_NOT_EXIST = '100005';
+const SERVER_ERROR = '100006';
 
 module.exports = {
     SUCCESS,
@@ -12,4 +13,5 @@ module.exports = {
     TOKEN_INVALID,
     HAVE_NO_RIGHT,
     RESOURCE_NOT_EXIST,
+    SERVER_ERROR,
 };
