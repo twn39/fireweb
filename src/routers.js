@@ -31,10 +31,10 @@ postRouter.post('/', CheckToken, PostHandler.add);
 postRouter.get('/:id', PostHandler.show);
 postRouter.put('/:id', PostHandler.update);
 postRouter.delete('/:id', PostHandler.delete);
-postRouter.get('/:id/like', LikeHandler.like);
-postRouter.get('/:id/unlike', LikeHandler.unLike);
-postRouter.get('/:id/bookmark', BookMarkHandler.bookmark);
-postRouter.get('/:id/unbookmark', BookMarkHandler.unBookMark);
+postRouter.get('/:id/like', CheckToken, LikeHandler.like);
+postRouter.get('/:id/unlike', CheckToken, LikeHandler.unLike);
+postRouter.get('/:id/bookmark', CheckToken, BookMarkHandler.bookmark);
+postRouter.get('/:id/unbookmark', CheckToken, BookMarkHandler.unBookMark);
 
 // comments
 postRouter.get('/:id/comments', CommentHandler.index);
