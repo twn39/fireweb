@@ -1,6 +1,7 @@
-const { Like, Post } = require('../models/Models');
+const { Like } = require('../models/Models');
 const DB = require('../models/DB');
 const datefns = require('date-fns');
+const PostRepo = require('./PostRepository');
 
 class LikeRepository {
 
@@ -17,7 +18,7 @@ class LikeRepository {
      */
     async like(userId, postId) {
 
-        const post = await Post.where('id', postId).fetch();
+        const post = await PostRepo.find(postId);
         if (post === null) {
             return false;
         }
@@ -53,7 +54,7 @@ class LikeRepository {
      * @returns {Promise<boolean>}
      */
     async unLike(userId, postId) {
-        const post = await Post.where('id', postId).fetch();
+        const post = await PostRepo.find(postId);
         if (post === null) {
             return false;
         }
@@ -64,7 +65,9 @@ class LikeRepository {
                 if (like === null) {
                     throw new Error('database likes table record is not exist.');
                 }
-                await like.destroy({transacting: t});
+                await Like.where('user_id', userId)
+                    .where('post_id', postId)
+                    .destroy({transacting: t});
 
                 await post.save({
                     likes: post.get('likes') - 1,

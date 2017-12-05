@@ -19,8 +19,6 @@ const LikeHandler = {
 
         const success = await LikeRepo.like(uid, postId);
 
-        console.log(success);
-
         if (success) {
             return ctx.body = Code(SUCCESS);
         }
@@ -43,6 +41,8 @@ const LikeHandler = {
         if (success) {
             return ctx.body = Code(SUCCESS);
         }
+
+        return ctx.body = Code(SERVER_ERROR);
     },
 };
 
