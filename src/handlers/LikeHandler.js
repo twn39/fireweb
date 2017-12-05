@@ -21,6 +21,8 @@ const LikeHandler = {
 
         if (success) {
             return ctx.body = Code(SUCCESS);
+        } else {
+            return ctx.body = Code(RESOURCE_NOT_EXIST);
         }
 
     },
