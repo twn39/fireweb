@@ -53,7 +53,7 @@ class BookMarkRepository {
                 const bookmark = await this.find(userId, postId);
 
                 if (bookmark === null) {
-                    throw new Error('database likes table record is not exist.');
+                    throw new Error('database bookmarks table record is not exist.');
                 }
                 await BookMark.where('user_id', userId)
                     .where('post_id', postId)
@@ -70,24 +70,6 @@ class BookMarkRepository {
             return false;
         }
     }
-
-    // async deleThisPic(id, index, $ind) {
-    //     const that = this;
-    //     const dele = await that.deleThisPicPromise(id);
-    //     if (dele.code === 0) {
-    //         const getPic = await that.getPicture(index);
-    //         if (getPic.code === 0) {
-    //             const data = await Promise.resolve(true).then(() => {
-    //                 Vue.set();
-    //                 Vue.set();
-    //                 return that.picNum;
-    //             })
-    //         }
-    //
-    //         console.log(data);
-    //     }
-    // }
-
 
 }
 

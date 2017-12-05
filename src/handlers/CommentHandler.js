@@ -3,7 +3,6 @@ const CommentRepo = require('../repositories/CommentRepository');
 const {
     SUCCESS,
     REQUEST_PARAMS_INVALID,
-    RESOURCE_NOT_EXIST,
     HAVE_NO_RIGHT,
 } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
