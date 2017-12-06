@@ -15,6 +15,9 @@ const Post = DB.Model.extend({
     author() {
         return this.belongsTo(User);
     },
+    tags() {
+        return this.belongsToMany(Tag);
+    }
 });
 
 const Comment = DB.Model.extend({
@@ -26,6 +29,9 @@ const Comment = DB.Model.extend({
 
 const Tag = DB.Model.extend({
     tableName: 'tags',
+    posts() {
+        return this.belongsToMany(Post);
+    }
 });
 
 const Like = DB.Model.extend({
