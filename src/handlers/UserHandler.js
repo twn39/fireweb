@@ -23,6 +23,12 @@ const updateUserSchema = Joi.object().keys({
 });
 
 const UserHandler = {
+    /**
+     * router: POST /v1/users/{id}
+     * @param ctx
+     * @param next
+     * @returns {Promise<*>}
+     */
     async update(ctx, next) {
         const params = ctx.request.body;
 

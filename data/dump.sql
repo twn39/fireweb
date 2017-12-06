@@ -58,7 +58,8 @@ SET default_with_oids = false;
 
 CREATE TABLE bookmarks (
     user_id integer NOT NULL,
-    post_id integer NOT NULL
+    post_id integer NOT NULL,
+    created_at timestamp without time zone
 );
 
 
@@ -107,11 +108,25 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 CREATE TABLE follows (
     user_id integer NOT NULL,
-    follow_id integer NOT NULL
+    follow_id integer NOT NULL,
+    created_at timestamp without time zone
 );
 
 
 ALTER TABLE follows OWNER TO twn39;
+
+--
+-- Name: likes; Type: TABLE; Schema: public; Owner: twn39
+--
+
+CREATE TABLE likes (
+    post_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_at timestamp without time zone
+);
+
+
+ALTER TABLE likes OWNER TO twn39;
 
 --
 -- Name: notices; Type: TABLE; Schema: public; Owner: twn39
@@ -321,7 +336,8 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 -- Data for Name: bookmarks; Type: TABLE DATA; Schema: public; Owner: twn39
 --
 
-COPY bookmarks (user_id, post_id) FROM stdin;
+COPY bookmarks (user_id, post_id, created_at) FROM stdin;
+1	5	2017-12-05 18:43:42
 \.
 
 
@@ -344,7 +360,15 @@ SELECT pg_catalog.setval('comments_id_seq', 1, false);
 -- Data for Name: follows; Type: TABLE DATA; Schema: public; Owner: twn39
 --
 
-COPY follows (user_id, follow_id) FROM stdin;
+COPY follows (user_id, follow_id, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: likes; Type: TABLE DATA; Schema: public; Owner: twn39
+--
+
+COPY likes (post_id, user_id, created_at) FROM stdin;
 \.
 
 
@@ -376,7 +400,10 @@ COPY post_tag (post_id, tag_id) FROM stdin;
 --
 
 COPY posts (id, title, content, created_at, updated_at, deleted_at, views, comments, bookmarks, likes, user_id) FROM stdin;
+6	test	nihao	2017-11-30 18:22:22	2017-11-30 18:22:22	\N	0	0	0	0	1
+4	hi	nihao	2017-11-30 16:43:58	2017-11-30 16:43:58	2017-11-30 16:58:00	0	0	0	0	1
 3	hello	test	2017-11-29 19:18:57	2017-11-29 19:18:57	2017-11-29 19:18:57	0	0	0	0	1
+5	test	nihao	2017-11-30 18:22:15	2017-11-30 18:22:15	\N	0	0	1	0	1
 \.
 
 
@@ -384,7 +411,7 @@ COPY posts (id, title, content, created_at, updated_at, deleted_at, views, comme
 -- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: twn39
 --
 
-SELECT pg_catalog.setval('posts_id_seq', 3, true);
+SELECT pg_catalog.setval('posts_id_seq', 6, true);
 
 
 --
@@ -440,6 +467,14 @@ ALTER TABLE ONLY comments
 
 ALTER TABLE ONLY follows
     ADD CONSTRAINT follows_user_id_follow_id_pk PRIMARY KEY (user_id, follow_id);
+
+
+--
+-- Name: likes_user_id_post_id_pk; Type: CONSTRAINT; Schema: public; Owner: twn39
+--
+
+ALTER TABLE ONLY likes
+    ADD CONSTRAINT likes_user_id_post_id_pk PRIMARY KEY (user_id, post_id);
 
 
 --
