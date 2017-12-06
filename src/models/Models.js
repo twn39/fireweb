@@ -30,17 +30,23 @@ const Tag = DB.Model.extend({
 
 const Like = DB.Model.extend({
     tableName: 'likes',
-    get idAttribute() { return null },
+    get idAttribute() {
+        return null;
+    },
 });
 
 const BookMark = DB.Model.extend({
     tableName: 'bookmarks',
-    get idAttribute() { return null },
+    get idAttribute() {
+        return null;
+    },
 });
 
 const Follow = DB.Model.extend({
     tableName: 'follows',
-    get idAttribute() { return null }
+    get idAttribute() {
+        return null;
+    },
 });
 
 module.exports = {

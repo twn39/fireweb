@@ -1,7 +1,7 @@
 const {
     SUCCESS,
     RESOURCE_NOT_EXIST,
-    SERVER_ERROR
+    SERVER_ERROR,
 } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 const LikeRepo = require('../repositories/LikeRepository');
@@ -20,10 +20,10 @@ const LikeHandler = {
         const success = await LikeRepo.like(uid, postId);
 
         if (success) {
-            return ctx.body = Code(SUCCESS);
+            return (ctx.body = Code(SUCCESS));
         }
 
-        return ctx.body = Code(SERVER_ERROR);
+        return (ctx.body = Code(SERVER_ERROR));
     },
 
     /**
@@ -39,10 +39,10 @@ const LikeHandler = {
         const success = await LikeRepo.unLike(uid, postId);
 
         if (success) {
-            return ctx.body = Code(SUCCESS);
+            return (ctx.body = Code(SUCCESS));
         }
 
-        return ctx.body = Code(SERVER_ERROR);
+        return (ctx.body = Code(SERVER_ERROR));
     },
 };
 

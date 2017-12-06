@@ -35,7 +35,7 @@ const CommentHandler = {
         const comment = await CommentRepo.add(uid, postId, params.content);
 
         if (comment) {
-            return ctx.body = Code(SUCCESS);
+            return (ctx.body = Code(SUCCESS));
         }
     },
 

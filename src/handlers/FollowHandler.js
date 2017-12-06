@@ -1,7 +1,4 @@
-const {
-    SUCCESS,
-    SERVER_ERROR
-} = require('../helpers/ErrorCode');
+const { SUCCESS, SERVER_ERROR } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 const FollowRepo = require('../repositories/FollowRepository');
 
@@ -19,10 +16,10 @@ const FollowHandler = {
         const success = await FollowRepo.follow(uid, followUserId);
 
         if (success) {
-            return ctx.body = Code(SUCCESS);
+            return (ctx.body = Code(SUCCESS));
         }
 
-        return ctx.body = Code(SERVER_ERROR);
+        return (ctx.body = Code(SERVER_ERROR));
     },
 
     /**
@@ -38,10 +35,10 @@ const FollowHandler = {
         const success = await FollowRepo.unFollow(uid, followUserId);
 
         if (success) {
-            return ctx.body = Code(SUCCESS);
+            return (ctx.body = Code(SUCCESS));
         }
 
-        return ctx.body = Code(SERVER_ERROR);
+        return (ctx.body = Code(SERVER_ERROR));
     },
 };
 

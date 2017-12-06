@@ -1,7 +1,4 @@
-const {
-    SUCCESS,
-    SERVER_ERROR
-} = require('../helpers/ErrorCode');
+const { SUCCESS, SERVER_ERROR } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 const BookMarkRepo = require('../repositories/BookMarkRepository');
 
@@ -13,17 +10,16 @@ const BookMarkHandler = {
      * @returns {Promise<*>}
      */
     async bookmark(ctx, next) {
-
         const uid = ctx.state.jwt.uid;
         const postId = ctx.params.id;
 
         const success = await BookMarkRepo.bookmark(uid, postId);
 
         if (success) {
-            return ctx.body = Code(SUCCESS);
+            return (ctx.body = Code(SUCCESS));
         }
 
-        return ctx.body = Code(SERVER_ERROR);
+        return (ctx.body = Code(SERVER_ERROR));
     },
 
     /**
@@ -33,17 +29,16 @@ const BookMarkHandler = {
      * @returns {Promise<*>}
      */
     async unBookMark(ctx, next) {
-
         const uid = ctx.state.jwt.uid;
         const postId = ctx.params.id;
 
         const success = await BookMarkRepo.unBookMark(uid, postId);
 
         if (success) {
-            return ctx.body = Code(SUCCESS);
+            return (ctx.body = Code(SUCCESS));
         }
 
-        return ctx.body = Code(SERVER_ERROR);
+        return (ctx.body = Code(SERVER_ERROR));
     },
 };
 
