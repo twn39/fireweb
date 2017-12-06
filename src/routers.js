@@ -24,6 +24,8 @@ router.get('/token/refresh', CheckToken, AuthHandler.tokenRefresh);
 router.put('/users/:id', CheckToken, UserHandler.update);
 router.get('/users/:id/follow', CheckToken, FollowHandler.follow);
 router.get('/users/:id/unfollow', CheckToken, FollowHandler.unFollow);
+router.get('/users/search', UserHandler.search);
+router.post('/users/:id/avatar', UserHandler.avatar);
 
 // posts
 postRouter.get('/', PostHandler.index);
@@ -35,6 +37,7 @@ postRouter.get('/:id/like', CheckToken, LikeHandler.like);
 postRouter.get('/:id/unlike', CheckToken, LikeHandler.unLike);
 postRouter.get('/:id/bookmark', CheckToken, BookMarkHandler.bookmark);
 postRouter.get('/:id/unbookmark', CheckToken, BookMarkHandler.unBookMark);
+postRouter.get('/search', PostHandler.search);
 
 // comments
 postRouter.get('/:id/comments', CommentHandler.index);

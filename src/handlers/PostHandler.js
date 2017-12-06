@@ -75,6 +75,10 @@ const PostHandler = {
      * @returns {Promise<void>}
      */
     async index(ctx, next) {},
+
+    async search(ctx, next) {
+
+    }
 };
 
 module.exports = PostHandler;

@@ -48,6 +48,14 @@ const UserHandler = {
 
         return (ctx.body = Code(SUCCESS));
     },
+
+    async search(ctx, next) {
+
+    },
+
+    async avatar(ctx, next) {
+
+    }
 };
 
 module.exports = UserHandler;
