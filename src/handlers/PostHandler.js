@@ -10,6 +10,7 @@ const PostRepo = require('../repositories/PostRepository');
 const postAddSchema = Joi.object().keys({
     title: Joi.string().required(),
     content: Joi.string().required(),
+    tags: Joi.array().unique(),
 });
 
 const PostHandler = {

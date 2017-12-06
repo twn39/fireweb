@@ -16,7 +16,7 @@ const Post = DB.Model.extend({
         return this.belongsTo(User);
     },
     tags() {
-        return this.belongsToMany(Tag);
+        return this.belongsToMany(Tag, 'post_tag', 'post_id', 'tag_id');
     }
 });
 
@@ -30,7 +30,7 @@ const Comment = DB.Model.extend({
 const Tag = DB.Model.extend({
     tableName: 'tags',
     posts() {
-        return this.belongsToMany(Post);
+        return this.belongsToMany(Post, 'post_tag', 'tag_id', 'post_id');
     }
 });
 
@@ -55,6 +55,10 @@ const Follow = DB.Model.extend({
     },
 });
 
+const PostTag = DB.Model.extend({
+    tableName: 'post_tag',
+});
+
 module.exports = {
     User,
     Post,
@@ -63,4 +67,5 @@ module.exports = {
     Like,
     BookMark,
     Follow,
+    PostTag,
 };
