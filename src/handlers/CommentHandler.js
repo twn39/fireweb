@@ -6,15 +6,38 @@ const {
     HAVE_NO_RIGHT,
 } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
+const isEmpty = require('lodash.isempty');
 
 const addCommentSchema = Joi.object().keys({
     content: Joi.string().required(),
 });
 
 const CommentHandler = {
-    async index(ctx, next) {},
+    /**
+     * router: GET /v1/posts/{id}/comments
+     * @param ctx
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async index(ctx, next) {
+        const postId = ctx.params.id;
 
-    async show(ctx, next) {},
+        const {page, perPage} = isEmpty(ctx.query) ? {page: 1, perPage: 20} : ctx.query;
+
+        let comments = await CommentRepo.findAllByPost(postId, page, perPage);
+
+        if (comments === null) {
+           comments = [];
+        }
+        const totalCount = await CommentRepo.totalCountByPost(postId);
+
+        return ctx.body = Code(SUCCESS, {
+            page: page,
+            'per_page': perPage,
+            comments: comments,
+            'total_count': totalCount,
+        })
+    },
 
     /**
      * router: POST /v1/posts/:id/comments

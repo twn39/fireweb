@@ -16,6 +16,7 @@
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.3.0",
     "lodash": "^4.17.4",
+    "lodash.isempty": "^4.4.0",
     "mysql": "^2.15.0",
     "pg": "^7.4.0",
     "pino": "^4.10.2",

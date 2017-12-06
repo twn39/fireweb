@@ -28,6 +28,25 @@ class CommentRepository {
         }).fetch();
     }
 
+    async findAllByPost(postId, page, perPage) {
+        return await Comment.query(qb => {
+            qb.select('comments.id', 'comments.content', 'comments.user_id',
+                'users.username', 'users.avatar', 'comments.created_at')
+                .innerJoin('users', 'comments.user_id', '=', 'users.id')
+                .where('post_id', postId)
+                .whereNull('deleted_at')
+                .offset((page - 1) * perPage)
+                .limit(perPage);
+        }).fetch();
+    }
+
+    async totalCountByPost(postId) {
+        return await Comment.query(qb => {
+            qb.where('post_id', postId)
+                .whereNull('deleted_at');
+        }).count();
+    }
+
     async delete(id) {
         const comment = await this.find(id);
 
