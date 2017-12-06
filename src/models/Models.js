@@ -59,6 +59,10 @@ const PostTag = DB.Model.extend({
     tableName: 'post_tag',
 });
 
+const Letter = DB.Model.extend({
+    tableName: 'letters',
+});
+
 module.exports = {
     User,
     Post,
@@ -68,4 +72,5 @@ module.exports = {
     BookMark,
     Follow,
     PostTag,
+    Letter,
 };
