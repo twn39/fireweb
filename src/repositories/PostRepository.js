@@ -37,6 +37,23 @@ class PostRepository {
             { patch: true }
         );
     }
+
+    async getAll(page, perPage) {
+        return await Post.query(qb => {
+            qb.select('posts.*', 'users.username', 'users.avatar')
+                .innerJoin('users', 'posts.user_id', '=', 'users.id')
+                .whereNull('posts.deleted_at')
+                .orderBy('id', 'desc')
+                .offset((page - 1) * perPage)
+                .limit(perPage);
+        }).fetchAll();
+    }
+
+    async totalCount() {
+        return await Post.query(qb => {
+            qb.whereNull('deleted_at');
+        }).count();
+    }
 }
 
 const postRepo = new PostRepository();

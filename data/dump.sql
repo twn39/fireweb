@@ -116,6 +116,43 @@ CREATE TABLE follows (
 ALTER TABLE follows OWNER TO twn39;
 
 --
+-- Name: letters; Type: TABLE; Schema: public; Owner: twn39
+--
+
+CREATE TABLE letters (
+    id integer NOT NULL,
+    from_user integer NOT NULL,
+    to_user integer NOT NULL,
+    created_at timestamp without time zone,
+    read_at timestamp without time zone,
+    content text NOT NULL
+);
+
+
+ALTER TABLE letters OWNER TO twn39;
+
+--
+-- Name: letters_id_seq; Type: SEQUENCE; Schema: public; Owner: twn39
+--
+
+CREATE SEQUENCE letters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE letters_id_seq OWNER TO twn39;
+
+--
+-- Name: letters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: twn39
+--
+
+ALTER SEQUENCE letters_id_seq OWNED BY letters.id;
+
+
+--
 -- Name: likes; Type: TABLE; Schema: public; Owner: twn39
 --
 
@@ -191,7 +228,8 @@ CREATE TABLE posts (
     comments integer DEFAULT 0,
     bookmarks integer DEFAULT 0,
     likes integer DEFAULT 0,
-    user_id integer NOT NULL
+    user_id integer NOT NULL,
+    last_comment_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -308,6 +346,13 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: twn39
 --
 
+ALTER TABLE ONLY letters ALTER COLUMN id SET DEFAULT nextval('letters_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: twn39
+--
+
 ALTER TABLE ONLY notices ALTER COLUMN id SET DEFAULT nextval('notices_id_seq'::regclass);
 
 
@@ -346,6 +391,8 @@ COPY bookmarks (user_id, post_id, created_at) FROM stdin;
 --
 
 COPY comments (id, user_id, post_id, content, created_at, deleted_at) FROM stdin;
+3	1	3	hello	\N	\N
+4	1	5	good	2017-12-08 12:22:20	\N
 \.
 
 
@@ -353,7 +400,7 @@ COPY comments (id, user_id, post_id, content, created_at, deleted_at) FROM stdin
 -- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: twn39
 --
 
-SELECT pg_catalog.setval('comments_id_seq', 1, false);
+SELECT pg_catalog.setval('comments_id_seq', 4, true);
 
 
 --
@@ -362,6 +409,21 @@ SELECT pg_catalog.setval('comments_id_seq', 1, false);
 
 COPY follows (user_id, follow_id, created_at) FROM stdin;
 \.
+
+
+--
+-- Data for Name: letters; Type: TABLE DATA; Schema: public; Owner: twn39
+--
+
+COPY letters (id, from_user, to_user, created_at, read_at, content) FROM stdin;
+\.
+
+
+--
+-- Name: letters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: twn39
+--
+
+SELECT pg_catalog.setval('letters_id_seq', 1, false);
 
 
 --
@@ -399,11 +461,11 @@ COPY post_tag (post_id, tag_id) FROM stdin;
 -- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: twn39
 --
 
-COPY posts (id, title, content, created_at, updated_at, deleted_at, views, comments, bookmarks, likes, user_id) FROM stdin;
-6	test	nihao	2017-11-30 18:22:22	2017-11-30 18:22:22	\N	0	0	0	0	1
-4	hi	nihao	2017-11-30 16:43:58	2017-11-30 16:43:58	2017-11-30 16:58:00	0	0	0	0	1
-3	hello	test	2017-11-29 19:18:57	2017-11-29 19:18:57	2017-11-29 19:18:57	0	0	0	0	1
-5	test	nihao	2017-11-30 18:22:15	2017-11-30 18:22:15	\N	0	0	1	0	1
+COPY posts (id, title, content, created_at, updated_at, deleted_at, views, comments, bookmarks, likes, user_id, last_comment_id) FROM stdin;
+5	test	nihao	2017-11-30 18:22:15	2017-11-30 18:22:15	\N	0	0	1	0	1	4
+6	test	nihao	2017-11-30 18:22:22	2017-11-30 18:22:22	\N	0	0	0	0	1	0
+4	hi	nihao	2017-11-30 16:43:58	2017-11-30 16:43:58	2017-11-30 16:58:00	0	0	0	0	1	0
+3	hello	test	2017-11-29 19:18:57	2017-11-29 19:18:57	2017-11-29 19:18:57	0	0	0	0	1	0
 \.
 
 
@@ -467,6 +529,14 @@ ALTER TABLE ONLY comments
 
 ALTER TABLE ONLY follows
     ADD CONSTRAINT follows_user_id_follow_id_pk PRIMARY KEY (user_id, follow_id);
+
+
+--
+-- Name: letters_pkey; Type: CONSTRAINT; Schema: public; Owner: twn39
+--
+
+ALTER TABLE ONLY letters
+    ADD CONSTRAINT letters_pkey PRIMARY KEY (id);
 
 
 --

@@ -1,4 +1,4 @@
-const { Comment } = require('../models/Models');
+const { Comment, Post } = require('../models/Models');
 const datefns = require('date-fns');
 
 class CommentRepository {
@@ -8,7 +8,7 @@ class CommentRepository {
         }).fetch();
     }
     async add(userId, postId, content) {
-        const comment = new Comment({
+        let comment = new Comment({
             user_id: userId,
             post_id: postId,
             content,
@@ -16,7 +16,11 @@ class CommentRepository {
             deleted_at: null,
         });
 
-        return await comment.save();
+        comment = await comment.save();
+        const post = await Post.where('id', postId).fetch();
+        await post.save({'last_comment_id': comment.get('id')}, {patch: true});
+
+        return true;
     }
 
     async findByUser(userId, commentId) {
@@ -37,7 +41,7 @@ class CommentRepository {
                 .whereNull('deleted_at')
                 .offset((page - 1) * perPage)
                 .limit(perPage);
-        }).fetch();
+        }).fetchAll();
     }
 
     async totalCountByPost(postId) {
