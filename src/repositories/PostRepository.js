@@ -1,5 +1,6 @@
-const { Post } = require('../models/Models');
+const { Post, Comment } = require('../models/Models');
 const datefns = require('date-fns');
+const BlueBird = require('bluebird');
 
 class PostRepository {
     async add(title, uid, content) {
@@ -39,7 +40,7 @@ class PostRepository {
     }
 
     async getAll(page, perPage) {
-        return await Post.query(qb => {
+        let posts = await Post.query(qb => {
             qb.select('posts.*', 'users.username', 'users.avatar')
                 .innerJoin('users', 'posts.user_id', '=', 'users.id')
                 .whereNull('posts.deleted_at')
@@ -47,6 +48,27 @@ class PostRepository {
                 .offset((page - 1) * perPage)
                 .limit(perPage);
         }).fetchAll();
+
+        posts = posts.toJSON();
+
+        return BlueBird.map(posts, async (post) => {
+            const lastCommentId = post.last_comment_id;
+
+            if (lastCommentId !== 0) {
+                const comment = await Comment.query(qb => {
+                    qb.select('comments.*', 'users.username', 'users.avatar')
+                        .innerJoin('users', 'comments.user_id', '=', 'users.id')
+                        .where('comments.id', lastCommentId)
+                        .whereNull('deleted_at')
+                }).fetch();
+                post.last_comment = comment.toJSON();
+                return post;
+            } else {
+                post.last_comment = {};
+                return post;
+            }
+        });
+
     }
 
     async totalCount() {
