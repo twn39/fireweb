@@ -111,7 +111,11 @@ const AuthHandler = {
             process.env.JWT_SECRET
         );
 
-        return (ctx.body = Code(SUCCESS, { token, exp }));
+        return (ctx.body = Code(SUCCESS, { token, exp, user: {
+            id: user.get('id'),
+            username: user.get('username'),
+            avatar: user.get('avatar'),
+        } }));
     },
     /**
      * route: /v1/token/refresh

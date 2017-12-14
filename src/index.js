@@ -7,8 +7,11 @@ const Koa = require('koa');
 const router = require('./routers');
 const pino = require('pino');
 const bodyParser = require('koa-bodyparser');
+const cors = require('@koa/cors');
 
 const app = new Koa();
+
+app.use(cors());
 
 app.context.logger = pino();
 
