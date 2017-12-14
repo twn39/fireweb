@@ -1,6 +1,6 @@
 const { User } = require('../models/Models');
 const datefns = require('date-fns');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 class UserRepository {
     async find(id) {

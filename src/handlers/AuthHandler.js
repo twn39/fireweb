@@ -1,7 +1,7 @@
 const UserRepo = require('../repositories/UserRepository');
 const Joi = require('joi');
 const JWT = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { SUCCESS, REQUEST_PARAMS_INVALID } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 
