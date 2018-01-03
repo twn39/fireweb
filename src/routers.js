@@ -8,6 +8,7 @@ const CommentHandler = require('./handlers/CommentHandler');
 const LikeHandler = require('./handlers/LikeHandler');
 const BookMarkHandler = require('./handlers/BookMarkHandler');
 const FileHandler = require('./handlers/FileHandler');
+const TagHandler = require('./handlers/TagHandler');
 const CheckToken = require('./middlewares/CheckToken');
 
 const router = new Router({
@@ -48,5 +49,7 @@ postRouter.delete('/:pid/comments/:cid', CheckToken, CommentHandler.delete);
 router.use('/posts', postRouter.routes());
 
 router.get('/file/token', CheckToken, FileHandler.token);
+
+router.get('/tags', TagHandler.all);
 
 module.exports = router;
