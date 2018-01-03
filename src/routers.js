@@ -7,6 +7,7 @@ const FollowHandler = require('./handlers/FollowHandler');
 const CommentHandler = require('./handlers/CommentHandler');
 const LikeHandler = require('./handlers/LikeHandler');
 const BookMarkHandler = require('./handlers/BookMarkHandler');
+const FileHandler = require('./handlers/FileHandler');
 const CheckToken = require('./middlewares/CheckToken');
 
 const router = new Router({
@@ -45,5 +46,7 @@ postRouter.post('/:id/comments', CheckToken, CommentHandler.add);
 postRouter.delete('/:pid/comments/:cid', CheckToken, CommentHandler.delete);
 
 router.use('/posts', postRouter.routes());
+
+router.get('/file/token', FileHandler.token);
 
 module.exports = router;
