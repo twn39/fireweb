@@ -8,11 +8,8 @@ const TagHandler = {
 
     async all(ctx, next) {
         const tags = await TagRepo.all();
-        console.log(tags);
 
-        ctx.body = Code(SUCCESS, {
-            tags: tags,
-        })
+        ctx.body = Code(SUCCESS, tags)
     }
 };
 
