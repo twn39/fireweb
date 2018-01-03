@@ -47,6 +47,6 @@ postRouter.delete('/:pid/comments/:cid', CheckToken, CommentHandler.delete);
 
 router.use('/posts', postRouter.routes());
 
-router.get('/file/token', FileHandler.token);
+router.get('/file/token', CheckToken, FileHandler.token);
 
 module.exports = router;
