@@ -57,6 +57,9 @@ const Follow = DB.Model.extend({
 
 const PostTag = DB.Model.extend({
     tableName: 'post_tag',
+    get idAttribute() {
+        return null;
+    },
 });
 
 const Letter = DB.Model.extend({

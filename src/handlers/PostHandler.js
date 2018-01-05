@@ -30,7 +30,7 @@ const PostHandler = {
             return (ctx.body = Code(REQUEST_PARAMS_INVALID, '', result.error));
         }
         const uid = ctx.state.jwt.uid;
-        const post = await PostRepo.add(params.title, uid, params.content);
+        const post = await PostRepo.add(params.title, uid, params.content, params.tags);
 
         if (post) {
             ctx.body = Code(SUCCESS);

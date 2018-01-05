@@ -1,9 +1,17 @@
-const { Post, Comment } = require('../models/Models');
+const { Post, Comment, Tag, PostTag } = require('../models/Models');
 const datefns = require('date-fns');
 const BlueBird = require('bluebird');
 
 class PostRepository {
-    async add(title, uid, content) {
+    /**
+     *
+     * @param title
+     * @param uid
+     * @param content
+     * @param tags
+     * @returns {Promise<*>}
+     */
+    async add(title, uid, content, tags) {
         let post = new Post({
             title,
             user_id: uid,
@@ -15,7 +23,33 @@ class PostRepository {
 
         post = await post.save();
 
+        if (tags.length > 0) {
+            await this.addTags(post.get('id'), tags);
+        }
+
         return post;
+    }
+
+    async addTags(postId, tags) {
+        tags.forEach(async (tagName) => {
+            let tag = await Tag.where('name', tagName).fetch();
+            if (tag === null) {
+               tag = new Tag({
+                   name: tagName,
+                   weight: 0,
+                   created_at: datefns.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+               });
+
+               tag = await tag.save();
+            }
+
+            const postTag = new PostTag({
+                post_id: postId,
+                tag_id: tag.get('id'),
+            });
+
+            return await postTag.save();
+        })
     }
 
     async find(id) {
