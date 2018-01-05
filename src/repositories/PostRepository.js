@@ -73,12 +73,18 @@ class PostRepository {
         );
     }
 
+    /**
+     *
+     * @param page
+     * @param perPage
+     * @returns {Promise<void>}
+     */
     async getAll(page, perPage) {
         let posts = await Post.query(qb => {
             qb.select('posts.*', 'users.username', 'users.avatar')
                 .innerJoin('users', 'posts.user_id', '=', 'users.id')
                 .whereNull('posts.deleted_at')
-                .orderBy('id', 'desc')
+                .orderBy('posts.id', 'desc')
                 .offset((page - 1) * perPage)
                 .limit(perPage);
         }).fetchAll();
@@ -103,6 +109,69 @@ class PostRepository {
             }
         });
 
+    }
+
+    /**
+     * 关键字下的所有文章
+     * @param tagName
+     * @param page
+     * @param perPage
+     * @returns {Promise<Array>}
+     */
+    async getAllByTag(tagName, page, perPage) {
+        const tag = await Tag.where('name', tagName).fetch();
+        if (tag === null) {
+            return [];
+        }
+
+        const tagId = tag.get('id');
+
+        let posts = await PostTag.query(qb => {
+            qb.select('*').innerJoin('posts', 'post_tag.post_id', '=', 'posts.id')
+                .where('post_tag.tag_id', tagId)
+                .whereNull('posts.deleted_at')
+                .orderBy('posts.id', 'desc')
+                .offset((page - 1) * perPage)
+                .limit(perPage);
+        }).fetchAll();
+
+        posts = posts.toJSON();
+
+        return BlueBird.map(posts, async (post) => {
+
+            const lastCommentId = post.last_comment_id;
+
+            if (lastCommentId !== 0) {
+                const comment = await Comment.query(qb => {
+                    qb.select('comments.*', 'users.username', 'users.avatar')
+                        .innerJoin('users', 'comments.user_id', '=', 'users.id')
+                        .where('comments.id', lastCommentId)
+                        .whereNull('deleted_at')
+                }).fetch();
+                post.last_comment = comment.toJSON();
+                return post;
+            } else {
+                post.last_comment = {};
+                return post;
+            }
+
+        })
+
+    }
+
+    async totalCountByTag(tagName) {
+        const tag = await Tag.where('name', tagName).fetch();
+        if (tag === null) {
+            return 0;
+        }
+
+        const tagId = tag.get('id');
+
+        return await PostTag.query(qb => {
+            qb.innerJoin('posts', 'post_tag.post_id', '=', 'posts.id')
+                .where('post_tag.tag_id', tagId)
+                .whereNull('posts.deleted_at')
+        }).count();
     }
 
     async totalCount() {

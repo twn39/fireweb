@@ -6,7 +6,7 @@ const {
 } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 const PostRepo = require('../repositories/PostRepository');
-const isEmpty = require('lodash.isempty');
+// const isEmpty = require('lodash.isempty');
 
 const postAddSchema = Joi.object().keys({
     title: Joi.string().required(),
@@ -70,7 +70,7 @@ const PostHandler = {
     },
 
     /**
-     * router: GET /v1/posts?page=1&perPage=20&filter=keyword
+     * router: GET /v1/posts?page=1&perPage=20&tag=keyword
      * @param ctx
      * @param next
      * @returns {Promise<void>}
@@ -79,8 +79,17 @@ const PostHandler = {
         let {page, perPage} = ctx.query;
         page = typeof page === 'undefined' ? 1 : parseInt(page);
         perPage = typeof perPage === 'undefined' ? 20 : parseInt(perPage);
-        const posts = await PostRepo.getAll(page, perPage);
-        const totalCount = await PostRepo.totalCount();
+
+        let posts = [];
+        let totalCount = 0;
+        const tag = ctx.query.tag;
+        if (typeof tag === 'undefined') {
+            posts = await PostRepo.getAll(page, perPage);
+            totalCount = await PostRepo.totalCount();
+        } else {
+            posts = await PostRepo.getAllByTag(tag, page, perPage);
+            totalCount = await PostRepo.totalCountByTag(tag);
+        }
 
         ctx.body = Code(SUCCESS, {
             page: page,
