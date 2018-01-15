@@ -179,6 +179,13 @@ class PostRepository {
             qb.whereNull('deleted_at');
         }).count();
     }
+
+    async viewsPlus(id) {
+        const post = await this.find(id);
+        return await post.save({
+            views: post.get('views') + 1,
+        })
+    }
 }
 
 const postRepo = new PostRepository();

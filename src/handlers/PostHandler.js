@@ -51,6 +51,8 @@ const PostHandler = {
             return (ctx.body = Code(RESOURCE_NOT_EXIST));
         }
 
+        await PostRepo.viewsPlus(post.get('id'));
+
         return (ctx.body = Code(SUCCESS, post.toJSON()));
     },
 

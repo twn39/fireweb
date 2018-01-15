@@ -33,9 +33,9 @@ const CommentHandler = {
 
         return ctx.body = Code(SUCCESS, {
             page: page,
-            'per_page': perPage,
+            per_page: perPage,
             comments: comments,
-            'total_count': totalCount,
+            total_count: totalCount,
         })
     },
 
