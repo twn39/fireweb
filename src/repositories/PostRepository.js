@@ -187,6 +187,13 @@ class PostRepository {
         })
     }
 
+    /**
+     * 获取指定用户的所有帖子
+     * @param userId
+     * @param page
+     * @param perPage
+     * @returns {Promise<*>}
+     */
     async getUserPosts(userId, page, perPage) {
         return await Post.query(qb => {
             qb.where('user_id', userId)
@@ -198,6 +205,11 @@ class PostRepository {
         }).fetchAll();
     }
 
+    /**
+     * 数量
+     * @param userId
+     * @returns {Promise<*>}
+     */
     async getUserPostsTotalCount(userId) {
         return await Post.query(qb => {
             qb.where('user_id', userId)
