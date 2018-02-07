@@ -1,4 +1,5 @@
 const UserRepo = require('../repositories/UserRepository');
+const PostRepo = require('../repositories/PostRepository');
 const {
     SUCCESS,
     REQUEST_PARAMS_INVALID,
@@ -55,7 +56,28 @@ const UserHandler = {
 
     async avatar(ctx, next) {
 
-    }
+    },
+    /**
+     * router: GET /v1/users/{id}/posts
+     * @param ctx
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async userPosts(ctx, next) {
+        const userId = ctx.params.id;
+        let {page, perPage} = ctx.query;
+        page = typeof page === 'undefined' ? 1 : parseInt(page);
+        perPage = typeof perPage === 'undefined' ? 20 : parseInt(perPage);
+        const posts = await PostRepo.getUserPosts(userId, page, perPage);
+        const totalCount = await PostRepo.getUserPostsTotalCount(userId);
+
+        return ctx.body = Code(SUCCESS, {
+            page: page,
+            perPage: perPage,
+            posts: posts,
+            total_count: totalCount,
+        })
+    },
 };
 
 module.exports = UserHandler;

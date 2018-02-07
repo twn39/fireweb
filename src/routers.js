@@ -28,6 +28,7 @@ router.get('/users/:id/follow', CheckToken, FollowHandler.follow);
 router.get('/users/:id/unfollow', CheckToken, FollowHandler.unFollow);
 router.get('/users/search', UserHandler.search);
 router.post('/users/:id/avatar', UserHandler.avatar);
+router.get('/users/:id/posts', UserHandler.userPosts);
 
 // posts
 postRouter.get('/', PostHandler.index);

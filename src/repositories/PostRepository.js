@@ -186,6 +186,24 @@ class PostRepository {
             views: post.get('views') + 1,
         })
     }
+
+    async getUserPosts(userId, page, perPage) {
+        return await Post.query(qb => {
+            qb.where('user_id', userId)
+                .select('id', 'title', 'views', 'comments', 'likes', 'created_at')
+                .whereNull('deleted_at')
+                .orderBy('id', 'desc')
+                .offset((page - 1) * perPage)
+                .limit(perPage)
+        }).fetchAll();
+    }
+
+    async getUserPostsTotalCount(userId) {
+        return await Post.query(qb => {
+            qb.where('user_id', userId)
+                .whereNull('deleted_at')
+        }).count();
+    }
 }
 
 const postRepo = new PostRepository();
