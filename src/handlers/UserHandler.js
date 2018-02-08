@@ -78,6 +78,26 @@ const UserHandler = {
             total_count: totalCount,
         })
     },
+
+    async banner(ctx, next) {
+        const userId = ctx.params.id;
+
+        const user = await UserRepo.find(userId);
+
+        return ctx.body = Code(SUCCESS, {
+            banner: user.banner,
+        })
+    },
+
+    async postBanner(ctx, next) {
+        const userId = ctx.params.id;
+
+        await UserRepo.update(userId, {
+            banner: ctx.request.body.banner,
+        });
+
+        return ctx.body = Code(SUCCESS)
+    }
 };
 
 module.exports = UserHandler;
