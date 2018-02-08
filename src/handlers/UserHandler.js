@@ -85,16 +85,15 @@ const UserHandler = {
         const user = await UserRepo.find(userId);
 
         return ctx.body = Code(SUCCESS, {
-            banner: user.get('banner')
+            banner: user.get('banner'),
+            avatar: user.get('avatar'),
         })
     },
 
     async postBanner(ctx, next) {
         const userId = ctx.params.id;
 
-        await UserRepo.update(userId, {
-            banner: ctx.request.body.banner,
-        });
+        await UserRepo.update(userId, ctx.request.body);
 
         return ctx.body = Code(SUCCESS)
     }

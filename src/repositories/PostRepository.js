@@ -23,7 +23,7 @@ class PostRepository {
 
         post = await post.save();
 
-        if (tags.length > 0) {
+        if ((typeof tags !== 'undefined') && (tags.length > 0)) {
             await this.addTags(post.get('id'), tags);
         }
 
