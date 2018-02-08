@@ -85,7 +85,7 @@ const UserHandler = {
         const user = await UserRepo.find(userId);
 
         return ctx.body = Code(SUCCESS, {
-            banner: user.banner,
+            banner: user.get('banner')
         })
     },
 
