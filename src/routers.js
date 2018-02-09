@@ -10,6 +10,7 @@ const BookMarkHandler = require('./handlers/BookMarkHandler');
 const FileHandler = require('./handlers/FileHandler');
 const TagHandler = require('./handlers/TagHandler');
 const CheckToken = require('./middlewares/CheckToken');
+const ParseToken = require('./middlewares/ParseToken');
 
 const router = new Router({
     prefix: '/v1',
@@ -35,7 +36,7 @@ router.post('/users/:id/banner', CheckToken, UserHandler.postBanner);
 // posts
 postRouter.get('/', PostHandler.index);
 postRouter.post('/', CheckToken, PostHandler.add);
-postRouter.get('/:id', PostHandler.show);
+postRouter.get('/:id', ParseToken, PostHandler.show);
 postRouter.put('/:id', PostHandler.update);
 postRouter.delete('/:id', PostHandler.delete);
 postRouter.get('/:id/like', CheckToken, LikeHandler.like);

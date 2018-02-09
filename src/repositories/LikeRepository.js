@@ -92,7 +92,6 @@ class LikeRepository {
         const likeItem = await Like.where('user_id', userId)
             .where('post_id', postId)
             .fetch();
-        console.log(likeItem);
 
         return likeItem !== null;
     }

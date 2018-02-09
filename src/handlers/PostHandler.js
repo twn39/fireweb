@@ -7,6 +7,7 @@ const {
 const Code = require('../helpers/Code');
 const PostRepo = require('../repositories/PostRepository');
 // const isEmpty = require('lodash.isempty');
+const LikeRepo = require('../repositories/LikeRepository');
 
 const postAddSchema = Joi.object().keys({
     title: Joi.string().required(),
@@ -50,10 +51,19 @@ const PostHandler = {
         if (post === null) {
             return (ctx.body = Code(RESOURCE_NOT_EXIST));
         }
+        let isLiked = '0';
+        if (typeof ctx.state.jwt !== 'undefined') {
+            const userId = ctx.state.jwt.uid;
+            const liked = await LikeRepo.isPostLiked(userId, postId);
+            isLiked = liked ? '1':'0';
+        }
 
         await PostRepo.viewsPlus(post.get('id'));
 
-        return (ctx.body = Code(SUCCESS, post.toJSON()));
+        return (ctx.body = Code(SUCCESS, {
+            ...post.toJSON(),
+            is_liked: isLiked,
+        }));
     },
 
     async update(ctx, next) {},
