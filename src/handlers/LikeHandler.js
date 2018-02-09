@@ -1,6 +1,5 @@
 const {
     SUCCESS,
-    RESOURCE_NOT_EXIST,
     RESOURCE_EXIST,
     SERVER_ERROR,
 } = require('../helpers/ErrorCode');
@@ -18,7 +17,7 @@ const LikeHandler = {
         const uid = ctx.state.jwt.uid;
         const postId = ctx.params.id;
 
-        const exist = LikeRepo.isPostLiked(uid, postId);
+        const exist = await LikeRepo.isPostLiked(uid, postId);
 
         if (exist) {
             return ctx.body = Code(RESOURCE_EXIST);
