@@ -5,6 +5,7 @@ const TOKEN_INVALID = '100003';
 const HAVE_NO_RIGHT = '100004';
 const RESOURCE_NOT_EXIST = '100005';
 const SERVER_ERROR = '100006';
+const RESOURCE_EXIST = '100007';
 
 module.exports = {
     SUCCESS,
@@ -14,4 +15,5 @@ module.exports = {
     HAVE_NO_RIGHT,
     RESOURCE_NOT_EXIST,
     SERVER_ERROR,
+    RESOURCE_EXIST,
 };

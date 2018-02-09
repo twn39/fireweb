@@ -87,6 +87,15 @@ class LikeRepository {
             return false;
         }
     }
+
+    async isPostLiked(userId, postId) {
+        const likeItem = await Like.where('user_id', userId)
+            .where('post_id', postId)
+            .fetch();
+        console.log(likeItem);
+
+        return likeItem !== null;
+    }
 }
 
 const likeRepo = new LikeRepository();

@@ -6,6 +6,7 @@ const messages = {
     '100004': 'have no right',
     '100005': 'resource not exist',
     '100006': 'server error',
+    '100007': 'resource exist',
 };
 
 function code(code, data = '', message = '') {
