@@ -8,6 +8,7 @@ const Code = require('../helpers/Code');
 const PostRepo = require('../repositories/PostRepository');
 // const isEmpty = require('lodash.isempty');
 const LikeRepo = require('../repositories/LikeRepository');
+const BookmarkRepo = require('../repositories/BookMarkRepository');
 
 const postAddSchema = Joi.object().keys({
     title: Joi.string().required(),
@@ -52,10 +53,15 @@ const PostHandler = {
             return (ctx.body = Code(RESOURCE_NOT_EXIST));
         }
         let isLiked = '0';
+        let isBookmarked = '0';
+
         if (typeof ctx.state.jwt !== 'undefined') {
             const userId = ctx.state.jwt.uid;
             const liked = await LikeRepo.isPostLiked(userId, postId);
             isLiked = liked ? '1':'0';
+
+            const bookmarked = await BookmarkRepo.isBookmarked(userId, postId);
+            isBookmarked = bookmarked ? '1':'0';
         }
 
         await PostRepo.viewsPlus(post.get('id'));
@@ -63,6 +69,7 @@ const PostHandler = {
         return (ctx.body = Code(SUCCESS, {
             ...post.toJSON(),
             is_liked: isLiked,
+            is_bookmarked: isBookmarked,
         }));
     },
 

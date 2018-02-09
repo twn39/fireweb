@@ -76,6 +76,14 @@ class BookMarkRepository {
             return false;
         }
     }
+
+    async isBookmarked(userId, postId) {
+        const bookmark = await BookMark.where('user_id', userId)
+            .where('post_id', postId)
+            .fetch();
+
+        return bookmark !== null;
+    }
 }
 
 const bookmarkRepo = new BookMarkRepository();
