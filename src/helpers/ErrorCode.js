@@ -6,6 +6,7 @@ const HAVE_NO_RIGHT = '100004';
 const RESOURCE_NOT_EXIST = '100005';
 const SERVER_ERROR = '100006';
 const RESOURCE_EXIST = '100007';
+const USERNAME_OR_EMAIL_INVALID = '100008';
 
 module.exports = {
     SUCCESS,
@@ -16,4 +17,5 @@ module.exports = {
     RESOURCE_NOT_EXIST,
     SERVER_ERROR,
     RESOURCE_EXIST,
+    USERNAME_OR_EMAIL_INVALID,
 };

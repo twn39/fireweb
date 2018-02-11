@@ -2,7 +2,7 @@ const UserRepo = require('../repositories/UserRepository');
 const Joi = require('joi');
 const JWT = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { SUCCESS, REQUEST_PARAMS_INVALID } = require('../helpers/ErrorCode');
+const { SUCCESS, REQUEST_PARAMS_INVALID, USERNAME_OR_EMAIL_INVALID } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 
 const signUpSchema = Joi.object().keys({
@@ -95,7 +95,7 @@ const AuthHandler = {
         );
 
         if (!match) {
-            return (ctx.body = 'email or password is invalid');
+            return ctx.body  = Code(USERNAME_OR_EMAIL_INVALID);
         }
 
         const exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24;

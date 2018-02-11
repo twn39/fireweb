@@ -7,6 +7,7 @@ const messages = {
     '100005': 'resource not exist',
     '100006': 'server error',
     '100007': 'resource exist',
+    '100008': 'username or email is invalid',
 };
 
 function code(code, data = '', message = '') {
