@@ -127,7 +127,9 @@ class PostRepository {
         const tagId = tag.get('id');
 
         let posts = await PostTag.query(qb => {
-            qb.select('*').innerJoin('posts', 'post_tag.post_id', '=', 'posts.id')
+            qb.select('posts.*', 'users.avatar', 'users.username')
+                .innerJoin('posts', 'post_tag.post_id', '=', 'posts.id')
+                .innerJoin('users', 'posts.user_id', '=', 'users.id')
                 .where('post_tag.tag_id', tagId)
                 .whereNull('posts.deleted_at')
                 .orderBy('posts.id', 'desc')
