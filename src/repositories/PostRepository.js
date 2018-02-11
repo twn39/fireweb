@@ -1,4 +1,4 @@
-const { Post, Comment, Tag, PostTag } = require('../models/Models');
+const { Post, Comment, Tag, PostTag, BookMark } = require('../models/Models');
 const datefns = require('date-fns');
 const BlueBird = require('bluebird');
 
@@ -208,6 +208,25 @@ class PostRepository {
     }
 
     /**
+     *
+     * @param userId
+     * @param page
+     * @param perPage
+     * @returns {Promise<*>}
+     */
+    async getUserBookmarks(userId, page, perPage) {
+        return await BookMark.query(qb => {
+            qb.select('posts.*', 'users.username')
+                .innerJoin('posts', 'bookmarks.post_id', '=', 'posts.id')
+                .innerJoin('users', 'posts.user_id', '=', 'users.id')
+                .where('bookmarks.user_id', '=', userId)
+                .orderBy('bookmarks.created_at', 'desc')
+                .offset((page - 1) * perPage)
+                .limit(perPage);
+        }).fetchAll();
+    }
+
+    /**
      * 数量
      * @param userId
      * @returns {Promise<*>}
@@ -217,6 +236,10 @@ class PostRepository {
             qb.where('user_id', userId)
                 .whereNull('deleted_at')
         }).count();
+    }
+
+    async getUserBookmarksTotalCount(userId) {
+        return await BookMark.where('user_id', userId).count();
     }
 }
 

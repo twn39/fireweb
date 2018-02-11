@@ -79,6 +79,28 @@ const UserHandler = {
         })
     },
 
+    /**
+     * router: GET /v1/users/{id}/bookmarks
+     * @param ctx
+     * @param next
+     * @returns {Promise<*>}
+     */
+    async userBookmarks(ctx, next) {
+        const userId = ctx.params.id;
+        let {page, perPage} = ctx.query;
+        page = typeof page === 'undefined' ? 1 : parseInt(page);
+        perPage = typeof perPage === 'undefined' ? 20 : parseInt(perPage);
+        const posts = await PostRepo.getUserBookmarks(userId, page, perPage);
+        const totalCount = await PostRepo.getUserBookmarksTotalCount(userId);
+
+        return ctx.body = Code(SUCCESS, {
+            page: page,
+            perPage: perPage,
+            bookmarks: posts,
+            total_count: totalCount,
+        })
+    },
+
     async banner(ctx, next) {
         const userId = ctx.params.id;
 

@@ -30,6 +30,7 @@ router.get('/users/:id/unfollow', CheckToken, FollowHandler.unFollow);
 router.get('/users/search', UserHandler.search);
 router.post('/users/:id/avatar', UserHandler.avatar);
 router.get('/users/:id/posts', UserHandler.userPosts);
+router.get('/users/:id/bookmarks', UserHandler.userBookmarks);
 router.get('/users/:id/banner', UserHandler.banner);
 router.post('/users/:id/banner', CheckToken, UserHandler.postBanner);
 
