@@ -118,6 +118,23 @@ const UserHandler = {
         await UserRepo.update(userId, ctx.request.body);
 
         return ctx.body = Code(SUCCESS)
+    },
+
+    async get(ctx, next) {
+        const userId = ctx.params.id;
+
+        const user = await UserRepo.find(userId);
+
+        if (user !== null) {
+            return ctx.body = Code(SUCCESS, {
+                id: user.get('id'),
+                username: user.get('username'),
+                avatar: user.get('avatar'),
+                created_at: user.get('created_at'),
+                banner: user.get('banner'),
+                fans: user.get('fans'),
+            });
+        }
     }
 };
 

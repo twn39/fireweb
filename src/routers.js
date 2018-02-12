@@ -24,6 +24,7 @@ router.post('/login', AuthHandler.login);
 router.get('/token/refresh', CheckToken, AuthHandler.tokenRefresh);
 
 //  users
+router.get('/users/:id', ParseToken, UserHandler.get);
 router.put('/users/:id', CheckToken, UserHandler.update);
 router.get('/users/:id/follow', CheckToken, FollowHandler.follow);
 router.get('/users/:id/unfollow', CheckToken, FollowHandler.unFollow);
