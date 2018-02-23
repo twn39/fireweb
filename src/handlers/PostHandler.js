@@ -118,6 +118,10 @@ const PostHandler = {
         });
     },
 
+    async todayHot(ctx, next) {
+
+    },
+
     async search(ctx, next) {
 
     }

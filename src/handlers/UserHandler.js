@@ -149,8 +149,6 @@ const UserHandler = {
             }
         });
 
-
-
         return ctx.body = Code(SUCCESS, newcomers);
     }
 };

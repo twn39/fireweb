@@ -39,6 +39,7 @@ router.get('/users/search', UserHandler.search);
 // posts
 postRouter.get('/', PostHandler.index);
 postRouter.post('/', CheckToken, PostHandler.add);
+postRouter.get('/today/hot', PostHandler.todayHot);
 postRouter.get('/:id(\\d+)', ParseToken, PostHandler.show);
 postRouter.put('/:id(\\d+)', PostHandler.update);
 postRouter.delete('/:id(\\d+)', PostHandler.delete);
