@@ -135,6 +135,23 @@ const UserHandler = {
                 fans: user.get('fans'),
             });
         }
+    },
+
+    async newcomers(ctx, next) {
+        let newcomers = await UserRepo.newcomers();
+
+        newcomers = newcomers.map(newcomer => {
+            return {
+                id: newcomer.get('id'),
+                avatar: newcomer.get('avatar'),
+                username: newcomer.get('username'),
+                created_at: newcomer.get('created_at'),
+            }
+        });
+
+
+
+        return ctx.body = Code(SUCCESS, newcomers);
     }
 };
 

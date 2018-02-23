@@ -46,6 +46,13 @@ class UserRepository {
     async findByEmail(email) {
         return await User.where('email', email).fetch();
     }
+
+    async newcomers() {
+        return await User.query(qb => {
+            qb.orderBy('id', 'desc')
+                .limit(10);
+        }).fetchAll();
+    }
 }
 
 const repository = new UserRepository();

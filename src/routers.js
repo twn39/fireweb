@@ -24,33 +24,34 @@ router.post('/login', AuthHandler.login);
 router.get('/token/refresh', CheckToken, AuthHandler.tokenRefresh);
 
 //  users
-router.get('/users/:id', ParseToken, UserHandler.get);
-router.put('/users/:id', CheckToken, UserHandler.update);
-router.get('/users/:id/follow', CheckToken, FollowHandler.follow);
-router.get('/users/:id/unfollow', CheckToken, FollowHandler.unFollow);
+router.get('/users/:id(\\d+)', ParseToken, UserHandler.get);
+router.put('/users/:id(\\d+)', CheckToken, UserHandler.update);
+router.get('/users/:id(\\d+)/follow', CheckToken, FollowHandler.follow);
+router.get('/users/:id(\\d+)/unfollow', CheckToken, FollowHandler.unFollow);
+router.post('/users/:id(\\d+)/avatar', UserHandler.avatar);
+router.get('/users/:id(\\d+)/posts', UserHandler.userPosts);
+router.get('/users/:id(\\d+)/bookmarks', UserHandler.userBookmarks);
+router.get('/users/:id(\\d+)/banner', UserHandler.banner);
+router.post('/users/:id(\\d+)/banner', CheckToken, UserHandler.postBanner);
+router.get('/users/newcomers', UserHandler.newcomers);
 router.get('/users/search', UserHandler.search);
-router.post('/users/:id/avatar', UserHandler.avatar);
-router.get('/users/:id/posts', UserHandler.userPosts);
-router.get('/users/:id/bookmarks', UserHandler.userBookmarks);
-router.get('/users/:id/banner', UserHandler.banner);
-router.post('/users/:id/banner', CheckToken, UserHandler.postBanner);
 
 // posts
 postRouter.get('/', PostHandler.index);
 postRouter.post('/', CheckToken, PostHandler.add);
-postRouter.get('/:id', ParseToken, PostHandler.show);
-postRouter.put('/:id', PostHandler.update);
-postRouter.delete('/:id', PostHandler.delete);
-postRouter.get('/:id/like', CheckToken, LikeHandler.like);
-postRouter.get('/:id/unlike', CheckToken, LikeHandler.unLike);
-postRouter.get('/:id/bookmark', CheckToken, BookMarkHandler.bookmark);
-postRouter.get('/:id/unbookmark', CheckToken, BookMarkHandler.unBookMark);
+postRouter.get('/:id(\\d+)', ParseToken, PostHandler.show);
+postRouter.put('/:id(\\d+)', PostHandler.update);
+postRouter.delete('/:id(\\d+)', PostHandler.delete);
+postRouter.get('/:id(\\d+)/like', CheckToken, LikeHandler.like);
+postRouter.get('/:id(\\d+)/unlike', CheckToken, LikeHandler.unLike);
+postRouter.get('/:id(\\d+)/bookmark', CheckToken, BookMarkHandler.bookmark);
+postRouter.get('/:id(\\d+)/unbookmark', CheckToken, BookMarkHandler.unBookMark);
 postRouter.get('/search', PostHandler.search);
 
 // comments
-postRouter.get('/:id/comments', CommentHandler.index);
-postRouter.post('/:id/comments', CheckToken, CommentHandler.add);
-postRouter.delete('/:pid/comments/:cid', CheckToken, CommentHandler.delete);
+postRouter.get('/:id(\\d+)/comments', CommentHandler.index);
+postRouter.post('/:id(\\d+)/comments', CheckToken, CommentHandler.add);
+postRouter.delete('/:pid(\\d+)/comments/:cid(\\d+)', CheckToken, CommentHandler.delete);
 
 router.use('/posts', postRouter.routes());
 
