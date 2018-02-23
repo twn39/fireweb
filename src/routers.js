@@ -11,6 +11,7 @@ const FileHandler = require('./handlers/FileHandler');
 const TagHandler = require('./handlers/TagHandler');
 const CheckToken = require('./middlewares/CheckToken');
 const ParseToken = require('./middlewares/ParseToken');
+const LetterHandler = require('./handlers/LetterHandler');
 
 const router = new Router({
     prefix: '/v1',
@@ -35,6 +36,7 @@ router.get('/users/:id(\\d+)/banner', UserHandler.banner);
 router.post('/users/:id(\\d+)/banner', CheckToken, UserHandler.postBanner);
 router.get('/users/newcomers', UserHandler.newcomers);
 router.get('/users/search', UserHandler.search);
+router.post('/users/:id(\\d+)/letters', CheckToken, LetterHandler.add);
 
 // posts
 postRouter.get('/', PostHandler.index);

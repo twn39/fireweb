@@ -11,7 +11,7 @@ const putPolicy = new Qiniu.rs.PutPolicy({
     scope: bucket,
 });
 
-const FileHandler = {
+class FileHandler {
 
     async token(ctx, next) {
         const token = putPolicy.uploadToken(mac);
@@ -20,6 +20,6 @@ const FileHandler = {
         });
     }
 
-};
+}
 
-module.exports = FileHandler;
+module.exports = new FileHandler();
