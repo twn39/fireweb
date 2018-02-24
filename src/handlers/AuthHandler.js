@@ -86,7 +86,7 @@ const AuthHandler = {
         const user = await UserRepo.findByEmail(params.email);
 
         if (user === null) {
-            return (ctx.body = 'email or password is invalid');
+            return ctx.body = Code(USERNAME_OR_EMAIL_INVALID);
         }
 
         const match = await bcrypt.compare(
