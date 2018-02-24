@@ -4,12 +4,24 @@ const datefns = require('date-fns');
 const UserRepo = require('./UserRepository');
 
 class FollowRepository {
+    /**
+     *
+     * @param userId
+     * @param followId
+     * @returns {Promise<*>}
+     */
     async find(userId, followId) {
         return await Follow.where('user_id', userId)
             .where('follow_id', followId)
             .fetch();
     }
 
+    /**
+     *
+     * @param userId
+     * @param followId
+     * @returns {Promise<*>}
+     */
     async follow(userId, followId) {
         const followUser = await UserRepo.find(followId);
 
@@ -45,6 +57,12 @@ class FollowRepository {
         }
     }
 
+    /**
+     *
+     * @param userId
+     * @param followId
+     * @returns {Promise<boolean>}
+     */
     async unFollow(userId, followId) {
         const followUser = await UserRepo.find(followId);
 
@@ -77,6 +95,21 @@ class FollowRepository {
             console.log(error);
             return false;
         }
+    }
+
+    /**
+     *
+     * @param userId
+     * @param followId
+     * @returns {Promise<boolean>}
+     */
+    async isFollowed(userId, followId) {
+        const follow = Follow.where('user_id', userId)
+            .where('follow_id', followId)
+            .limit(1)
+            .fetch();
+
+        return follow !== null;
     }
 }
 

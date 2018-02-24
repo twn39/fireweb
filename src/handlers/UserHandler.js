@@ -23,7 +23,7 @@ const updateUserSchema = Joi.object().keys({
     sign: Joi.string(),
 });
 
-const UserHandler = {
+class UserHandler {
     /**
      * router: POST /v1/users/{id}
      * @param ctx
@@ -48,15 +48,15 @@ const UserHandler = {
         }
 
         return (ctx.body = Code(SUCCESS));
-    },
+    }
 
     async search(ctx, next) {
 
-    },
+    }
 
     async avatar(ctx, next) {
 
-    },
+    }
     /**
      * router: GET /v1/users/{id}/posts
      * @param ctx
@@ -77,7 +77,7 @@ const UserHandler = {
             posts: posts,
             total_count: totalCount,
         })
-    },
+    }
 
     /**
      * router: GET /v1/users/{id}/bookmarks
@@ -99,7 +99,7 @@ const UserHandler = {
             bookmarks: posts,
             total_count: totalCount,
         })
-    },
+    }
 
     async banner(ctx, next) {
         const userId = ctx.params.id;
@@ -110,7 +110,7 @@ const UserHandler = {
             banner: user.get('banner'),
             avatar: user.get('avatar'),
         })
-    },
+    }
 
     async postBanner(ctx, next) {
         const userId = ctx.params.id;
@@ -118,7 +118,7 @@ const UserHandler = {
         await UserRepo.update(userId, ctx.request.body);
 
         return ctx.body = Code(SUCCESS)
-    },
+    }
 
     async get(ctx, next) {
         const userId = ctx.params.id;
@@ -126,6 +126,7 @@ const UserHandler = {
         const user = await UserRepo.find(userId);
 
         if (user !== null) {
+
             return ctx.body = Code(SUCCESS, {
                 id: user.get('id'),
                 username: user.get('username'),
@@ -135,7 +136,7 @@ const UserHandler = {
                 fans: user.get('fans'),
             });
         }
-    },
+    }
 
     async newcomers(ctx, next) {
         let newcomers = await UserRepo.newcomers();
@@ -151,6 +152,6 @@ const UserHandler = {
 
         return ctx.body = Code(SUCCESS, newcomers);
     }
-};
+}
 
-module.exports = UserHandler;
+module.exports = new UserHandler();
