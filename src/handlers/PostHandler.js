@@ -9,6 +9,7 @@ const PostRepo = require('../repositories/PostRepository');
 // const isEmpty = require('lodash.isempty');
 const LikeRepo = require('../repositories/LikeRepository');
 const BookmarkRepo = require('../repositories/BookMarkRepository');
+const UserRepo = require('../repositories/UserRepository');
 
 const postAddSchema = Joi.object().keys({
     title: Joi.string().required(),
@@ -66,10 +67,13 @@ const PostHandler = {
 
         await PostRepo.viewsPlus(post.get('id'));
 
+        const author = await UserRepo.find(post.get('user_id'));
+
         return (ctx.body = Code(SUCCESS, {
             ...post.toJSON(),
             is_liked: isLiked,
             is_bookmarked: isBookmarked,
+            username: author.get('username'),
         }));
     },
 

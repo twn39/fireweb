@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const CommentRepo = require('../repositories/CommentRepository');
+const PostRepo = require('../repositories/PostRepository');
 const {
     SUCCESS,
     REQUEST_PARAMS_INVALID,
@@ -12,7 +13,7 @@ const addCommentSchema = Joi.object().keys({
     content: Joi.string().required(),
 });
 
-const CommentHandler = {
+class CommentHandler {
     /**
      * router: GET /v1/posts/{id}/comments
      * @param ctx
@@ -37,7 +38,7 @@ const CommentHandler = {
             comments: comments,
             total_count: totalCount,
         })
-    },
+    }
 
     /**
      * router: POST /v1/posts/:id/comments
@@ -56,11 +57,12 @@ const CommentHandler = {
         const uid = ctx.state.jwt.uid;
         const postId = ctx.params.id;
         const comment = await CommentRepo.add(uid, postId, params.content);
+        await PostRepo.commentPlus(postId);
 
         if (comment) {
             return (ctx.body = Code(SUCCESS));
         }
-    },
+    }
 
     /**
      * router: DELETE /v1/posts/:id/comments/:id
@@ -81,7 +83,7 @@ const CommentHandler = {
         await CommentRepo.delete(commentId);
 
         return (ctx.body = Code(SUCCESS));
-    },
-};
+    }
+}
 
-module.exports = CommentHandler;
+module.exports = new CommentHandler();

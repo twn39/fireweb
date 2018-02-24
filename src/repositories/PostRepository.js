@@ -189,6 +189,13 @@ class PostRepository {
         })
     }
 
+    async commentPlus(id) {
+        const post = await this.find(id);
+        return await post.save({
+            comments: post.get('comments') + 1,
+        })
+    }
+
     /**
      * 获取指定用户的所有帖子
      * @param userId
