@@ -91,6 +91,18 @@ class PostRepository {
 
         posts = posts.toJSON();
 
+        posts = await BlueBird.map(posts, async (post) => {
+           let postId =  post.id;
+           const tag = await PostTag.query(qb => {
+               qb.select('tags.*')
+                   .innerJoin('tags', 'post_tag.tag_id', '=', 'tags.id')
+                   .where('post_tag.post_id', postId)
+                   .limit(1);
+           }).fetch();
+           post.tag = tag;
+           return post;
+        });
+
         return BlueBird.map(posts, async (post) => {
             const lastCommentId = post.last_comment_id;
 

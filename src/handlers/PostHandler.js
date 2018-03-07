@@ -6,7 +6,6 @@ const {
 } = require('../helpers/ErrorCode');
 const Code = require('../helpers/Code');
 const PostRepo = require('../repositories/PostRepository');
-// const isEmpty = require('lodash.isempty');
 const LikeRepo = require('../repositories/LikeRepository');
 const BookmarkRepo = require('../repositories/BookMarkRepository');
 const UserRepo = require('../repositories/UserRepository');
