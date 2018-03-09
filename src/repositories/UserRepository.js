@@ -1,4 +1,4 @@
-const { User } = require('../models/Models');
+const { User, Post } = require('../models/Models');
 const datefns = require('date-fns');
 const bcrypt = require('bcryptjs');
 
@@ -84,6 +84,18 @@ class UserRepository {
             qb.orderBy('id', 'desc')
                 .limit(10);
         }).fetchAll();
+    }
+
+    /**
+     *
+     * @param userId
+     * @returns {Promise<*>}
+     */
+    async allPostCount(userId) {
+        return await Post.query(qb => {
+            qb.where('user_id', userId)
+                .whereNull('deleted_at');
+        }).count();
     }
 
 }

@@ -1,5 +1,6 @@
 const UserRepo = require('../repositories/UserRepository');
 const PostRepo = require('../repositories/PostRepository');
+const FollowRepo = require('../repositories/FollowRepository');
 const {
     SUCCESS,
     REQUEST_PARAMS_INVALID,
@@ -126,15 +127,27 @@ class UserHandler {
         const user = await UserRepo.find(userId);
 
         if (user !== null) {
-
-            return ctx.body = Code(SUCCESS, {
+            let result = {
                 id: user.get('id'),
                 username: user.get('username'),
                 avatar: user.get('avatar'),
                 created_at: user.get('created_at'),
                 banner: user.get('banner'),
                 fans: user.get('fans'),
-            });
+            };
+
+            if (!isEmpty(ctx.state.jwt)) {
+                const isFollowed = await FollowRepo.isFollowed(ctx.state.jwt.uid, userId);
+                const postsCount = await UserRepo.allPostCount(userId);
+
+                result = {
+                    ...result,
+                    is_followed: isFollowed,
+                    posts: postsCount,
+                }
+            }
+
+            return ctx.body = Code(SUCCESS, result);
         }
     }
 

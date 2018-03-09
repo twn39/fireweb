@@ -104,9 +104,8 @@ class FollowRepository {
      * @returns {Promise<boolean>}
      */
     async isFollowed(userId, followId) {
-        const follow = Follow.where('user_id', userId)
+        const follow = await Follow.where('user_id', userId)
             .where('follow_id', followId)
-            .limit(1)
             .fetch();
 
         return follow !== null;
